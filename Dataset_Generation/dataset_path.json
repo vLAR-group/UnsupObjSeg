@@ -1,0 +1,24 @@
+{
+    "train": 
+    {
+        "dSprites": "/media/HDD1/yafei/multi_dsprites/train",
+        "Tetris": "/media/HDD1/yafei/multi_tetris/train",
+        "CLEVR": "/media/HDD1/yafei/CLEVR6/train",
+        "YCB": "/media/HDD1/yafei/video_YCB/train",
+        "ScanNet": "/media/HDD1/yafei/ScanNet/train",
+        "COCO": "/media/HDD1/yafei/coco/train"
+    },
+    "test": 
+    {
+        "dSprites": "/media/HDD1/yafei/multi_dsprites/test",
+        "Tetris": "/media/HDD1/yafei/multi_tetris/test",
+        "CLEVR": "/media/HDD1/yafei/CLEVR6/test",
+        "YCB": "/media/HDD1/yafei/video_YCB/test",
+        "ScanNet": "/media/HDD1/yafei/ScanNet/test",
+        "COCO": "/media/HDD1/yafei/coco/test"
+    }
+}
+
+
+
+

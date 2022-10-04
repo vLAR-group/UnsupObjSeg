@@ -1,0 +1,146 @@
+{"train": 
+    {
+        "dSprites": "/media/HDD1/yafei/multi_dsprites/TFRecord_train/multi_dsprites_train.tfrecord",
+        "Tetris": "/media/HDD1/yafei/multi_tetris/TFRecord_train/multi_tetris_train.tfrecord",
+        "CLEVR": "/media/HDD1/yafei/CLEVR6/TFRecord_train/clevr6_no_bg_train.tfrecord",
+        "YCB": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_no_bg_train.tfrecord",
+        "ScanNet": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_no_bg_train.tfrecord",
+        "COCO": "/media/HDD1/yafei/coco/TFRecord_train/coco_no_bg_train.tfrecord",
+
+        "YCB_C": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_single_color_train.tfrecord", 
+        "ScanNet_C": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_single_color_train.tfrecord",
+        "COCO_C": "/media/HDD1/yafei/coco/TFRecord_train/coco_single_color_train.tfrecord",
+
+        "YCB_S": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_train.tfrecord", 
+        "ScanNet_S": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_train.tfrecord",
+        "COCO_S": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_train.tfrecord",
+
+        "YCB_T": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_texture_replaced_train.tfrecord", 
+        "ScanNet_T": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_texture_replaced_train.tfrecord",
+        "COCO_T": "/media/HDD1/yafei/coco/TFRecord_train/coco_texture_replaced_train.tfrecord",
+        
+        "YCB_U": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_uniformed_train.tfrecord", 
+        "ScanNet_U": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_uniformed_train.tfrecord",
+        "COCO_U": "/media/HDD1/yafei/coco/TFRecord_train/coco_uniformed_train.tfrecord",
+
+        "YCB_CS": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_single_color_train.tfrecord", 
+        "ScanNet_CS": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_single_color_train.tfrecord",
+        "COCO_CS": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_single_color_train.tfrecord",
+        
+        "YCB_TU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_uniformed_texture_replaced_train.tfrecord", 
+        "ScanNet_TU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_uniformed_texture_replaced_train.tfrecord",
+        "COCO_TU": "/media/HDD1/yafei/coco/TFRecord_train/coco_uniformed_texture_replaced_train.tfrecord",
+
+        "YCB_CST": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_texture_replaced_single_color_train.tfrecord", 
+        "ScanNet_CST": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_texture_replaced_single_color_train.tfrecord",
+        "COCO_CST": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_texture_replaced_single_color_train.tfrecord",
+
+        "YCB_CSU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_uniformed_single_color_train.tfrecord", 
+        "ScanNet_CSU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_uniformed_single_color_train.tfrecord",
+        "COCO_CSU": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_uniformed_single_color_train.tfrecord",
+
+        "YCB_CSTU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_uniformed_texture_replaced_single_color_train.tfrecord", 
+        "ScanNet_CSTU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_uniformed_texture_replaced_single_color_train.tfrecord",
+        "COCO_CSTU": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_uniformed_texture_replaced_single_color_train.tfrecord",
+
+        "YCB_CT": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_texture_replaced_single_color_train.tfrecord", 
+        "ScanNet_CT": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_texture_replaced_single_color_train.tfrecord",
+        "COCO_CT": "/media/HDD1/yafei/coco/TFRecord_train/coco_texture_replaced_single_color_train.tfrecord",
+
+        "YCB_CU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_uniformed_single_color_train.tfrecord", 
+        "ScanNet_CU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_uniformed_single_color_train.tfrecord",
+        "COCO_CU": "/media/HDD1/yafei/coco/TFRecord_train/coco_uniformed_single_color_train.tfrecord",
+
+        "YCB_CTU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_uniformed_texture_replaced_single_color_train.tfrecord", 
+        "ScanNet_CTU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_uniformed_texture_replaced_single_color_train.tfrecord",
+        "COCO_CTU": "/media/HDD1/yafei/coco/TFRecord_train/coco_uniformed_texture_replaced_single_color_train.tfrecord",
+
+        "YCB_ST": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_texture_replaced_train.tfrecord", 
+        "ScanNet_ST": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_texture_replaced_train.tfrecord",
+        "COCO_ST": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_texture_replaced_train.tfrecord",
+
+        "YCB_SU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_uniformed_train.tfrecord", 
+        "ScanNet_SU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_uniformed_train.tfrecord",
+        "COCO_SU": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_uniformed_train.tfrecord",
+
+        "YCB_STU": "/media/HDD1/yafei/video_YCB/TFRecord_train/video_YCB_convex_uniformed_texture_replaced_train.tfrecord", 
+        "ScanNet_STU": "/media/HDD1/yafei/ScanNet/TFRecord_train/scannet_convex_uniformed_texture_replaced_train.tfrecord",
+        "COCO_STU": "/media/HDD1/yafei/coco/TFRecord_train/coco_convex_uniformed_texture_replaced_train.tfrecord"
+
+    },
+    "test": 
+    {
+        "dSprites": "/media/HDD1/yafei/multi_dsprites/TFRecord_test/multi_dsprites_test.tfrecord",
+        "Tetris": "/media/HDD1/yafei/multi_tetris/TFRecord_test/multi_tetris_test.tfrecord",
+        "CLEVR": "/media/HDD1/yafei/CLEVR6/TFRecord_test/clevr6_no_bg_test.tfrecord",
+        "YCB": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_no_bg_test.tfrecord",
+        "ScanNet": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_no_bg_test.tfrecord",
+        "COCO": "/media/HDD1/yafei/coco/TFRecord_test/coco_no_bg_test.tfrecord",
+        
+        "YCB_C": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_single_color_test.tfrecord", 
+        "ScanNet_C": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_single_color_test.tfrecord",
+        "COCO_C": "/media/HDD1/yafei/coco/TFRecord_test/coco_single_color_test.tfrecord",
+
+        "YCB_S": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_test.tfrecord", 
+        "ScanNet_S": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_test.tfrecord",
+        "COCO_S": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_test.tfrecord",
+
+        "YCB_T": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_texture_replaced_test.tfrecord", 
+        "ScanNet_T": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_texture_replaced_test.tfrecord",
+        "COCO_T": "/media/HDD1/yafei/coco/TFRecord_test/coco_texture_replaced_test.tfrecord",
+
+        "YCB_U": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_uniformed_test.tfrecord", 
+        "ScanNet_U": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_uniformed_test.tfrecord",
+        "COCO_U": "/media/HDD1/yafei/coco/TFRecord_test/coco_uniformed_test.tfrecord",
+
+        "YCB_CS": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_single_color_test.tfrecord", 
+        "ScanNet_CS": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_single_color_test.tfrecord",
+        "COCO_CS": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_single_color_test.tfrecord",
+
+        "YCB_TU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_uniformed_texture_replaced_test.tfrecord", 
+        "ScanNet_TU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_uniformed_texture_replaced_test.tfrecord",
+        "COCO_TU": "/media/HDD1/yafei/coco/TFRecord_test/coco_uniformed_texture_replaced_test.tfrecord",
+
+        "YCB_CST": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_texture_replaced_single_color_test.tfrecord", 
+        "ScanNet_CST": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_texture_replaced_single_color_test.tfrecord",
+        "COCO_CST": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_texture_replaced_single_color_test.tfrecord",
+
+        "YCB_CSU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_uniformed_single_color_test.tfrecord", 
+        "ScanNet_CSU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_uniformed_single_color_test.tfrecord",
+        "COCO_CSU": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_uniformed_single_color_test.tfrecord",
+
+        "YCB_CSTU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_uniformed_texture_replaced_single_color_test.tfrecord", 
+        "ScanNet_CSTU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_uniformed_texture_replaced_single_color_test.tfrecord",
+        "COCO_CSTU": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_uniformed_texture_replaced_single_color_test.tfrecord",
+
+        "YCB_CT": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_texture_replaced_single_color_test.tfrecord", 
+        "ScanNet_CT": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_texture_replaced_single_color_test.tfrecord",
+        "COCO_CT": "/media/HDD1/yafei/coco/TFRecord_test/coco_texture_replaced_single_color_test.tfrecord",
+
+        "YCB_CU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_uniformed_single_color_test.tfrecord", 
+        "ScanNet_CU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_uniformed_single_color_test.tfrecord",
+        "COCO_CU": "/media/HDD1/yafei/coco/TFRecord_test/coco_uniformed_single_color_test.tfrecord",
+
+        "YCB_CTU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_uniformed_texture_replaced_single_color_test.tfrecord", 
+        "ScanNet_CTU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_uniformed_texture_replaced_single_color_test.tfrecord",
+        "COCO_CTU": "/media/HDD1/yafei/coco/TFRecord_test/coco_uniformed_texture_replaced_single_color_test.tfrecord",
+
+        "YCB_ST": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_texture_replaced_test.tfrecord", 
+        "ScanNet_ST": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_texture_replaced_test.tfrecord",
+        "COCO_ST": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_texture_replaced_test.tfrecord",
+
+        "YCB_SU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_uniformed_test.tfrecord", 
+        "ScanNet_SU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_uniformed_test.tfrecord",
+        "COCO_SU": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_uniformed_test.tfrecord",
+
+        "YCB_STU": "/media/HDD1/yafei/video_YCB/TFRecord_test/video_YCB_convex_uniformed_texture_replaced_test.tfrecord", 
+        "ScanNet_STU": "/media/HDD1/yafei/ScanNet/TFRecord_test/scannet_convex_uniformed_texture_replaced_test.tfrecord",
+        "COCO_STU": "/media/HDD1/yafei/coco/TFRecord_test/coco_convex_uniformed_texture_replaced_test.tfrecord"
+
+
+    }
+}
+
+
+
+
