@@ -194,7 +194,20 @@ Calculate object-level and scene-level complexity factors with `Complexity_Facto
 ![original_experiment.gif](media/original_experiment.gif)
 ![ablation_experiment.gif](media/ablation_experiment.gif)
 
-## Reference Repository :bulb:
+## Citation
+If you find our work useful in your research, please consider citing:
+
+      @article{yang2022,
+      title={Promising or Elusive? Unsupervised Object Segmentation from Real-world Single Images},
+      author={Yang, Yafei and Yang, Bo},
+      journal={NeurIPS},
+      year={2022}
+    }
+
+## Updates
+* 5/10/2022: Initial release！
+
+## Acknowledgement :bulb:
 This project references the following repositories:
 * https://pyro.ai/examples/air.html
 * https://github.com/addtt/attend-infer-repeat-pytorch
