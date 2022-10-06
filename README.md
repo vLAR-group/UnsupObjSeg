@@ -1,4 +1,4 @@
-[![arXiv](https://img.shields.io/badge/arXiv-2208.07227-b31b1b.svg)](https://arxiv.org/abs/2208.07227)
+[![arXiv](https://img.shields.io/badge/arXiv-2210.02324-b31b1b.svg)](https://arxiv.org/abs/2210.02324)
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=vLAR-group/UnsupObjSeg)
 
 ## Promising or Elusive? Unsupervised Object Segmentation from Real-world Single Images (NeurIPS 2022)
