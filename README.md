@@ -1,11 +1,9 @@
-[![arXiv](https://img.shields.io/badge/arXiv-xxxx.xxxxx-b31b1b.svg)]()
-<!-- ![visitors](https://visitor-badge.glitch.me/badge?page_id=YangYafei1998.Unsup_Object_Seg_Real_Image) -->
+[![arXiv](https://img.shields.io/badge/arXiv-2208.07227-b31b1b.svg)](https://arxiv.org/abs/2208.07227)
+![visitors](https://visitor-badge.glitch.me/badge?page_id=vLAR-group/UnsupObjSeg)
 
-# Unsupervised Object Segmentation for Real-world Image
-This is the official repository of
-**Promising or Elusive? Unsupervised Object Segmentation from Real-world Single Images** (accpeted at NeurIPS 2022).\
+## Promising or Elusive? Unsupervised Object Segmentation from Real-world Single Images (NeurIPS 2022).\
 [Yafei Yang](https://yangyafei1998.github.io/), [Bo Yang<sup>*</sup>](https://yang7879.github.io/)\
-[**paper**]() | [**webpage**](https://vlar-group.github.io/UnsupObjSeg.html)
+[**Paper**](https://arxiv.org/abs/2210.02324) | [**Project Page**](https://vlar-group.github.io/UnsupObjSeg.html)
 
 
 ![teaser.png](media/teaser.png)
