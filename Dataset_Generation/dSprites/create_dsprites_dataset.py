@@ -116,7 +116,7 @@ if __name__ == "__main__":
                 n_imgs=args.n_imgs, 
                 root=args.root, 
                 min_object_count=args.min_object_count,
-                max_object_count=args.max_num_objects, 
+                max_object_count=args.max_object_count, 
                 image_dim=args.image_dim,
                 seed=args.seed,
                 start_idx=args.start_idx)
