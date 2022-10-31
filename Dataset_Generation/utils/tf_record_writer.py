@@ -47,10 +47,12 @@ class TFRecordWriter:
                 obj_idx_list = np.unique(mask)
                 mask_list = []
 
-                for obj_idx in obj_idx_list:
-                    mask_list.append(np.array(mask==obj_idx).astype(np.uint8)*obj_idx)
+                for obj_idx in sorted(obj_idx_list):
+                    if obj_idx >= 7:
+                        continue
+                    mask_list.append(np.array(mask==obj_idx).astype(np.uint8))
                 while len(mask_list) < self.MAX_NUM_ENTITIES:
-                    mask_list.append(np.array(mask==-1).astype(np.uint8))
+                    mask_list.append(np.zeros_like(mask))
 
                 new_mask = np.stack(mask_list, axis=2)[:, :, :, 0] 
                 

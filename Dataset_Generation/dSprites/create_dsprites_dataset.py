@@ -39,6 +39,7 @@ def create_dataset(
                 image_dim,
                 seed=0,
                 start_idx=0):
+    assert min_object_count <= max_object_count
     random.seed(seed)
     np.random.seed(seed)
     if not os.path.exists(root):
@@ -66,14 +67,6 @@ def create_dataset(
         while obj_index < object_count + 1:
             binary_dsprite_image = imgs_sampled[random.randint(0, sample_count-1)] 
             binary_dsprite_image = cv2.resize(binary_dsprite_image, (image_dim, image_dim), interpolation = cv2.INTER_NEAREST)
-            ## discard this dsprites object if it covers more than half of the previously created objects
-            discard_flag = False
-            for previous_obj_idx in range(1, obj_index):
-                previous_obj_mask = np.array(out_mask==previous_obj_idx).astype(np.uint8)
-                if (binary_dsprite_image * previous_obj_mask).sum() > previous_obj_mask.sum() * 0.5:
-                    discard_flag = True
-            if discard_flag:
-                continue
             dsprite_mask = binary_dsprite_image
             out_mask = out_mask * (1-dsprite_mask) + dsprite_mask * obj_index
             dsprite_color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
@@ -82,6 +75,12 @@ def create_dataset(
             colored_dsprites = np.repeat(dsprite_mask[:, :, None], 3, axis=2) * color_map
             out_image = out_image * (1-dsprite_mask[:, :, None]) + colored_dsprites
             obj_index += 1
+        ## discard this image if there is too small dSprite object
+        for obj_idx in np.unique(out_mask):
+            obj_mask = np.array(out_mask==obj_idx).astype(np.uint8)
+            if obj_mask.sum() < 15:
+                continue
+        ## discard this image if the number of objects does not match with requirement
         if len(np.unique(out_mask))-1 < min_object_count:
             continue
         cv2.imwrite(os.path.join(image_root, fname), out_image)

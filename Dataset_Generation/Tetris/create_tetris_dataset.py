@@ -34,6 +34,7 @@ def create_dataset(
                 image_dim,
                 seed=0,
                 start_idx=0):
+    assert min_object_count <= max_object_count
     random.seed(seed)
     np.random.seed(seed)
     if not os.path.exists(root):

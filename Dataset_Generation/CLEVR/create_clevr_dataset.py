@@ -39,6 +39,7 @@ def create_dataset(
                 seed=0,
                 start_idx=0,
                 source_start_idx=0):
+    assert min_object_count <= max_object_count
     random.seed(seed)
     np.random.seed(seed)
     if not os.path.exists(root):
@@ -78,6 +79,10 @@ def create_dataset(
                 continue
             else:
                 out_mask += np.array(raw_mask==raw_obj_id).astype(np.uint8) * (obj_index+1)
+        for obj_idx in np.unique(out_mask):
+            obj_mask = np.array(out_mask==obj_idx).astype(np.uint8)
+            if obj_mask.sum() < 15:
+                continue
         cv2.imwrite(os.path.join(image_root, fname), out_image*np.array(out_mask!=0).astype(np.uint8)[:,:,None])
         cv2.imwrite(os.path.join(mask_root, fname), out_mask)
         img_index += 1
