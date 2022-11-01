@@ -39,6 +39,7 @@ conda activate [env_name]
 Note: Since this repo consists of implementation of different approaches, we use seperate conda environments to manage them. Specifcally, use `tf1_env.yml` to build environment for **IODINE**, use `tf2_env.yml` to build environment for **Slot Attention** and use `pytorch_env.yml` for **AIR** and **MONet**.
 
 ### 2. Prepare datasets
+Datasets used in this paper can be downloaded [here](https://www.dropbox.com/sh/u1p1d6hysjxqauy/AACgEh0K5ANipuIeDnmaC5mQa?dl=0). We provide both TFRecord and PNG files for each dataset. Alternatively, you can generate datasets following below instructions. 
 #### 2.1 Dsprites dataset
 Download raw dSprites shape data from https://github.com/deepmind/dsprites-dataset. Put downloaded `dsprites_ndarray_co1sh3sc6or40x32y32_64x64.npz` under `Dataset_Generation/dSprites`. \
 Create our dSprite dataset using given shape data with: 
