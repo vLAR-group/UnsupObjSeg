@@ -36,3 +36,26 @@ def shift_image(X, dx, dy):
     elif dx<0:
         X[:, dx:] = 0
     return X
+
+def generate_convex_appearance_for_bg(source_component_image, source_component_mask, source_obj_mask, target_component_mask):
+    x_center, y_center = np.argwhere(source_component_mask==1).sum(0)/source_component_mask.sum()
+    x_range = np.argwhere(source_component_mask==1)[:,0].max() - np.argwhere(source_component_mask==1)[:,0].min() 
+    y_range = np.argwhere(source_component_mask==1)[:,1].max() - np.argwhere(source_component_mask==1)[:,1].min() 
+    center = (x_center, y_center)
+    current_mask = source_component_mask
+    current_image = source_component_image
+    current_obj_mask = source_obj_mask
+    timeout = 5
+    timeout_start = time.time()
+    # while current_mask.sum() < target_component_mask.sum() and time.time() < timeout_start + timeout:
+    while ((1-current_mask) * target_component_mask).sum() != 0 and time.time() < timeout_start + timeout:
+        x_shift = random.randint(-x_range, x_range)
+        y_shift = random.randint(-y_range, y_range)
+        shifted_image = shift_image(source_component_image, x_shift, y_shift)
+        shifted_mask = shift_image(source_component_mask, x_shift, y_shift)
+        shifted_obj_mask = shift_image(source_obj_mask, x_shift, y_shift)
+        new_mask = np.array(target_component_mask==1) * np.array(shifted_mask==1) * np.array(current_mask==0)
+        current_image += shifted_image * new_mask[:,:,None]
+        current_obj_mask += shifted_obj_mask * new_mask
+        current_mask += new_mask
+    return current_image, current_mask, current_obj_mask

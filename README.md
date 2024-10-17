@@ -30,6 +30,17 @@ This repository contains:
     * PQ score;
     * Precision and Recall.
 
+IJCV extension contains:
+* Additional Complexity Factors Calculation for Background under `Complexity_Factors/`.
+* MOVi Datasets Generation under `Dataset_Generation/MOVi`.
+* Background Complexity Factors Adaptation under `Dataset_Generation/Ablation Dataset`.
+* Additional Baseline DINOSAUR (["Bridging the Gap to Real-World Object-Centric Learning"](https://arxiv.org/abs/2209.14860)).
+* Additional Evaluation Metrics under `Segmentation_Evaluation/`, including:
+    * ARI;
+    * ARP;
+    * ARR;
+    * Background Recall.
+
 ## Preparation :construction_worker:
 ### 1. Create conda environment
 ```
@@ -113,10 +124,23 @@ python YCB/create_ScanNet_dataset.py --n_imgs [num_imgs] --root [COCO_location] 
 ```
 This will create `[num_imgs]` images and their corresponding masks under `[COCO_location]/image` and `[COCO_location]/mask`.
 
+#### 2.7 MOVi Dataset
+Details for MOVi-C and MOVi-E datasets can be found at https://github.com/google-research/kubric/tree/main/challenges/movi. They can be directly loaded with:
+```
+ds = tfds.load("movi_c/128x128", data_dir="gs://kubric-public/tfds") 
+ds = tfds.load("movi_e/128x128", data_dir="gs://kubric-public/tfds") 
+```
+Images and masks with PNG format can be parse with:
+```
+python MOVi/movi_c_128.py 
+python MOVi/movi_e_128.py 
+```
+
 ### 3. Create ablation datasets
 * Use `Dataset_Generation/Ablation Dataset/object_level_ablation.py` to create datasets ablated on object level factors.
 * Use `Dataset_Generation/Ablation Dataset/scene_level_ablation.py` to create datasets ablated on scene level factors.
 * Use `Dataset_Generation/Ablation Dataset/joint_ablation.py` to create datasets ablated on both object and scene level factors.
+* Use `Dataset_Generation/Ablation Dataset/bg_ablation.py` to create datasets ablated on background factors.
 
 Details examples and usages can be found in corresponding scripts.
 
@@ -188,6 +212,20 @@ where:
 - `gpu_id` is the target cuda device id. 
 - in all experiments for Slot Attention, we set the `num_slots` to be 7.
 
+### 5. DINOSAUR
+We use the official repo for all experiments on DINOSAUR, code and instructions can be found at: https://github.com/amazon-science/object-centric-learning-framework. Examples are as follows:
+
+Training:
+```
+CUDA_VISIBLE_DEVICES=[gpu_id] poetry run ocl_train +experiment=projects/bridging/dinosaur/movi_c_feat_rec 
+```
+Testing:
+```
+CUDA_VISIBLE_DEVICES=2 poetry run ocl_eval +evaluation=projects/bridging/metrics_coco +train_config_name=config +train_config_path=[config path]
+```
+where:
+- `gpu_id` is the target cuda device id. 
+- `config path` is the path for DINOSAUR configurations. 
 
 ## Complexity factors for datasets :bar_chart:
 Calculate object-level and scene-level complexity factors with `Complexity_Factors/Complexity_Factor_Evaluator.py`. Examples are provided in that script.
@@ -200,15 +238,27 @@ Calculate object-level and scene-level complexity factors with `Complexity_Facto
 ## Citation
 If you find our work useful in your research, please consider citing:
 
-      @article{yang2022,
+    @article{yang2022,
       title={Promising or Elusive? Unsupervised Object Segmentation from Real-world Single Images},
       author={Yang, Yafei and Yang, Bo},
       journal={NeurIPS},
       year={2022}
     }
 
+    @article{yang2024benchmarking,
+        title={Benchmarking and Analysis of Unsupervised Object Segmentation from Real-World Single Images},
+        author={Yang, Yafei and Yang, Bo},
+        journal={International Journal of Computer Vision},
+        volume={132},
+        number={6},
+        pages={2077--2113},
+        year={2024},
+        publisher={Springer}
+    }
+
 ## Updates
 * 5/10/2022: Initial release！
+* 18/10/2024: Content related to IJCV extension has been included in this repo!
 
 ## Acknowledgement :bulb:
 This project references the following repositories:
@@ -217,3 +267,6 @@ This project references the following repositories:
 * https://github.com/applied-ai-lab/genesis
 * https://github.com/deepmind/deepmind-research/tree/master/iodine
 * https://github.com/google-research/google-research/tree/master/slot_attention
+* https://github.com/google-research/kubric/tree/main/challenges/movi
+* https://github.com/amazon-science/object-centric-learning-framework
+

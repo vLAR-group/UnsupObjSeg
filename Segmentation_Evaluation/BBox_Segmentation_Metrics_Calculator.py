@@ -11,6 +11,8 @@ from torch import nn
 import torch.nn.functional as F
 import sys
 from .utils import convert_to_float_numpy, convert_to_numpy, mask_to_boundary, calculate_iou
+from .arp_arr import precision_recall
+
 eps = 1e-10
 
 '''
@@ -34,6 +36,9 @@ class Bbox_Segmentation_Metrics_Calculator:
         self.pred_conf = []
         self.gt_count_list = []
         self.TP_iou_list = []
+        self.ari_list = []
+        self.arp_list = []
+        self.arr_list = []
         self.TP_count = 0
         self.FP_count = 0
         self.FN_count = 0
@@ -58,7 +63,10 @@ class Bbox_Segmentation_Metrics_Calculator:
             'PQ': PQ,
             'F1': F1,
             'Precision': Prec,
-            'Recall': Recall
+            'Recall': Recall,
+            'ari': np.array(self.ari_list).mean(),
+            'arp': np.array(self.arp_list).mean(),
+            'arr': np.array(self.arr_list).mean(),
         }
     '''
     This function takes a batch of prediction and ground truth, and update the following class variables accordingly;
@@ -175,6 +183,13 @@ class Bbox_Segmentation_Metrics_Calculator:
             self.FP_count += len(pred_match) - np.sum(pred_match)
             self.FN_count += gt_ins_count - np.sum(pred_match)
 
+            gt_mask = np.argmax(gt_mask, axis=0)
+            pred_mask = np.argmax(pred_mask, axis=0) if pred_ins_count > 0 else np.zeros_like(gt_mask)
+            ari, arp, arr = self.calculate_arp_arr(torch.tensor(gt_mask), torch.tensor(pred_mask))
+            self.ari_list.append(ari)
+            self.arp_list.append(arp)
+            self.arr_list.append(arr)
+
 
 
     def calculate_AP(self, PredMatched, Confidence, GT_Inst):
@@ -200,3 +215,13 @@ class Bbox_Segmentation_Metrics_Calculator:
         precisions, recalls = precisions_queried.tolist(), recall_thresholds.tolist()
         AP = np.mean(precisions)
         return AP
+
+    def calculate_arp_arr(self, gt_mask, pred_mask):
+        # print(gt_mask.device, pred_mask.device)
+        # gt_mask = gt_mask.cuda()
+        # pred_mask = pred_mask.cuda()
+        # print(gt_mask.device, pred_mask.device)
+        ari = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='ari', adjusted=True)
+        arp = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='precision', adjusted=True)
+        arr = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='recall', adjusted=True)
+        return ari.item(), arp.item(), arr.item()

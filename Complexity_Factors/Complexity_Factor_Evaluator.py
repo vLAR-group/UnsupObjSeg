@@ -16,6 +16,7 @@ from utils.chamfer_dist import calculate_chamfer_distance
 from utils.hausdorff_dist import calculate_hausdorff_distance
 from utils.mask_to_coordinates import mask_to_coordinates
 from utils.merge_dict import merge_with_old_dict
+from utils.max_inscribe_convex_hull import maximal_inscribed_convex_set
 EPS = 1e-5
 '''
 This class is to compute complexity factors for a dataset
@@ -219,6 +220,69 @@ class Complexity_Factor_Evaluator:
             scene_factors['Inter-object Proximity with Chamfer Distance'] = 1 - spatial_distance_chamfer / (128 * math.sqrt(2))
 
             result[img_key] = scene_factors.copy()
+        
+        return result.copy()
+
+    def calculate_bg_factors(self):
+        result = {}
+        dataset_component_perimeter_list = []
+        dataset_component_area_list = []
+        # max_component_perimeter = MAX_COMPONENT_PERIMETER_DICT[self.image_root.split('/')[-3]]
+        # max_component_area = MAX_COMPONENT_AREA_DICT[self.image_root.split('/')[-3]]
+        for index, image_fname in enumerate(tqdm(self.image_filenames, ncols=120)):
+            ## read image and mask data
+            image = cv2.imread(os.path.join(self.image_root, image_fname))
+            mask = cv2.imread(os.path.join(self.mask_root, self.mask_filenames[index]), cv2.IMREAD_GRAYSCALE)  
+            img_key = image_fname.split('.')[0]
+            bg_factors = {}
+            binary_bg_mask = np.array(mask==0).astype(np.uint8)
+            binary_fg_mask = np.array(mask!=0).astype(np.uint8)
+            if binary_bg_mask.sum() == 0:
+                continue
+            
+            ## 1. Bg Color Gradient
+            grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) if len(image.shape) == 3 else image
+            gradient_image = calculate_image_gradient(grayscale_image)
+            binary_bg_mask_without_boundary = binary_bg_mask - mask_to_boundary(binary_bg_mask)
+            bg_color_gradient = (gradient_image * binary_bg_mask_without_boundary).sum() / (binary_bg_mask_without_boundary.sum() + EPS)
+            bg_factors['BG Color Gradient'] = bg_color_gradient / 255.0
+
+            # 2. BG-FG Color Similarity with linear sum assignment
+            resized_image = cv2.resize(image, (50, 50), interpolation = cv2.INTER_AREA)
+            resized_binary_bg_mask = cv2.resize(binary_bg_mask, (50, 50), interpolation = cv2.INTER_AREA)
+            resized_binary_fg_mask = cv2.resize(binary_fg_mask, (50, 50), interpolation = cv2.INTER_AREA)
+            assert len(np.unique(resized_binary_bg_mask)) <= 2
+
+            bg_rgb_points = np.ma.array(resized_image, mask=np.repeat(1-resized_binary_bg_mask[:,:,None], 3, axis=-1)).compressed()
+            bg_rgb_points = np.resize(bg_rgb_points, (int(len(bg_rgb_points)/3), 3))
+            # bg_rgb_points = np.unique(bg_rgb_points, axis=0)
+            fg_rgb_points = np.ma.array(resized_image, mask=np.repeat(1-resized_binary_fg_mask[:,:,None], 3, axis=-1)).compressed()
+            fg_rgb_points = np.resize(fg_rgb_points, (int(len(fg_rgb_points)/3), 3))
+            # fg_rgb_points = np.unique(fg_rgb_points, axis=0)
+            if len(bg_rgb_points) == 0 or len(fg_rgb_points) == 0:
+                bg_factors['BG-FG Color Similarity (negative LSA)'] = 1
+            else:
+                fg_bg_color_distance_matrix = sklearn.metrics.pairwise.euclidean_distances(bg_rgb_points, fg_rgb_points)
+                row_ind, col_ind = linear_sum_assignment(-fg_bg_color_distance_matrix)
+                min_dist = fg_bg_color_distance_matrix[row_ind, col_ind].mean()
+                
+                bg_factors['BG-FG Color Similarity (negative LSA)'] = 1 - (min_dist / (255 * math.sqrt(3)))
+
+            # ## 3. BG Shape Irregularity
+            connected_component_labels = skimage.measure.label(binary_fg_mask)
+            irregularity_score_list = []
+            for label in np.unique(connected_component_labels):
+                if label == 0:
+                    continue
+                binary_component = np.array(connected_component_labels==label).astype(np.uint8)
+                maximal_inscribed_convex = maximal_inscribed_convex_set(binary_component)
+                irregularity_score = (1 - maximal_inscribed_convex.sum() / binary_component.sum())
+                irregularity_score_list.append(irregularity_score)
+            bg_factors['BG Shape Irregularity'] = sum(irregularity_score_list) / len(irregularity_score_list)
+
+            result[img_key] = bg_factors.copy()
+
+
         
         return result.copy()
 

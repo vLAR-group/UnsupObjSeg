@@ -13,7 +13,7 @@ from scipy.optimize import linear_sum_assignment
 import torch.nn.functional as F
 import sys
 from .utils import convert_to_float_tensor, convert_to_tensor, mask_to_boundary
-
+from .arp_arr import precision_recall
 '''
 This class is used to compute segmentation metrics: AP@05 / PQ / F1 / Precision / Recall / SC / ARI
 - MAIN FUNCTION 1: update_new_batch()
@@ -37,11 +37,15 @@ class Segmentation_Metrics_Calculator:
         self.gt_iou_list = []
         self.pred_iou_list = []
         self.pred_conf_list = []
+        self.fg_ari_list = []
         self.ari_list = []
+        self.arp_list = []
+        self.arr_list = []
         self.sc_per_image_list = [] ## length == number of image
         self.sc_per_dataset_list = [] ## length == number of gt objects
         self.max_ins_num = max_ins_num
         self.use_boundary_iou = use_boundary_iou
+        self.bg_TP_count = 0
     
     
     '''
@@ -62,7 +66,7 @@ class Segmentation_Metrics_Calculator:
         F1 = self.TP_count / (self.TP_count + self.FP_count*0.5 + self.FN_count*0.5)
         assert len(self.ari_list) == len(self.sc_per_image_list) ## number of images
         assert len(self.sc_per_dataset_list) == len(self.gt_iou_list) ## number of objects
-        ari = np.array(self.ari_list).mean()
+        fg_ari = np.array(self.fg_ari_list).mean()
         sc_per_image = np.array(self.sc_per_image_list).mean()
         sc_per_dataset = np.array(self.sc_per_dataset_list).mean()
 
@@ -74,7 +78,11 @@ class Segmentation_Metrics_Calculator:
             'recall': recall.item(),
             'sc_per_image': sc_per_image,
             'sc_per_dataset': sc_per_dataset,
-            'ari': ari,
+            'fg_ari': fg_ari,
+            'ari': np.array(self.ari_list).mean(),
+            'arp': np.array(self.arp_list).mean(),
+            'arr': np.array(self.arr_list).mean(),
+            'bg recall': self.bg_TP_count / len(self.ari_list),
             'image count': len(self.ari_list),
             'object count': len(self.sc_per_dataset_list)
         }
@@ -125,10 +133,10 @@ class Segmentation_Metrics_Calculator:
             pred_conf_mask = pred_conf_mask_batch[batch_idx] ## [H, W]
 
             gt_ins_binary, pred_ins_binary, gt_ins_count, pred_ins_count, pred_conf_score = self.process_mask(
-                gt_mask=gt_mask,
-                pred_mask=pred_mask,
+                gt_mask=gt_mask.clone(),
+                pred_mask=pred_mask.clone(),
                 gt_fg_mask=gt_fg_mask,
-                valid_pred_mask=valid_pred_mask,
+                valid_pred_mask=valid_pred_mask.clone(),
                 pred_conf_mask=pred_conf_mask,
             )
             iou_matrix = self.get_iou_matrix(gt_ins_binary, pred_ins_binary)
@@ -144,8 +152,13 @@ class Segmentation_Metrics_Calculator:
             self.pred_conf_list.extend(pred_conf_score)
             self.sc_per_image_list.append(gt_matched_score.mean())
             self.sc_per_dataset_list.extend(gt_matched_score)
-            ari = self.calculate_ari(gt_mask, pred_mask, gt_fg_mask)
+            fg_ari = self.calculate_ari(gt_mask, pred_mask, gt_fg_mask)
+            pred_mask[valid_pred_mask==0] = pred_mask.max() + 1
+            ari, arp, arr = self.calculate_arp_arr(gt_mask, pred_mask)
+            self.fg_ari_list.append(fg_ari)
             self.ari_list.append(ari)
+            self.arp_list.append(arp)
+            self.arr_list.append(arr)
 
     '''
     INPUT:
@@ -177,13 +190,15 @@ class Segmentation_Metrics_Calculator:
         ## successful match when iou > 0.5
         ## if there is a match, remove that predicted component before AP clculation 
         pred_fg_mask = valid_pred_mask.clone()
-        gt_bg_mask = 1-gt_fg_mask
+        # gt_bg_mask = 1-gt_fg_mask
+        gt_bg_mask = (gt_mask==0)
         for pred_idx in torch.unique(torch.masked_select(pred_mask, valid_pred_mask.bool())):
             pred_idx = pred_idx.item()
             pred_ins = (pred_mask==pred_idx) * valid_pred_mask
             iou = torch.sum(pred_ins*gt_bg_mask) / (torch.sum(pred_ins) + torch.sum(gt_bg_mask) - torch.sum(pred_ins*gt_bg_mask) + 1e-6)
             if iou >= 0.5:
                 pred_fg_mask *= (1-pred_ins)
+                self.bg_TP_count += 1
 
 
         ## get unique labels from fg area
@@ -293,6 +308,15 @@ class Segmentation_Metrics_Calculator:
 
         return ari
     
+    def calculate_arp_arr(self, gt_mask, pred_mask):
+        # print(gt_mask.device, pred_mask.device)
+        # gt_mask = gt_mask.cuda()
+        # pred_mask = pred_mask.cuda()
+        # print(gt_mask.device, pred_mask.device)
+        ari = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='ari', adjusted=True)
+        arp = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='precision', adjusted=True)
+        arr = precision_recall(segmentation_gt=gt_mask.unsqueeze(0), segmentation_pred=pred_mask.unsqueeze(0), mode='recall', adjusted=True)
+        return ari.item(), arp.item(), arr.item()
 
     '''
     This function is to calculate AP
@@ -358,7 +382,8 @@ class Segmentation_Metrics_Calculator:
         ## successful match when iou > 0.5
         ## if there is a match, remove that predicted component before AP clculation 
         pred_fg_mask = valid_pred_mask.clone()
-        gt_bg_mask = 1-gt_fg_mask
+        # gt_bg_mask = 1-gt_fg_mask
+        gt_bg_mask = (gt_mask==0)
         for pred_idx in torch.unique(torch.masked_select(pred_mask, valid_pred_mask.bool())):
             pred_idx = pred_idx.item()
             pred_ins = (pred_mask==pred_idx) * valid_pred_mask
