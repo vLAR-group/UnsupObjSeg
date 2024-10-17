@@ -130,7 +130,7 @@ Details for MOVi-C and MOVi-E datasets can be found at https://github.com/google
 ds = tfds.load("movi_c/128x128", data_dir="gs://kubric-public/tfds") 
 ds = tfds.load("movi_e/128x128", data_dir="gs://kubric-public/tfds") 
 ```
-Images and masks with PNG format can be parse with:
+Images and masks with PNG format can be parsed with:
 ```
 python MOVi/movi_c_128.py 
 python MOVi/movi_e_128.py 
